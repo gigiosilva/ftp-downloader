@@ -12,7 +12,9 @@ conn.on('ready', function() {
         if (err) throw err;
 
         const filesToDownload = [
-            'XALOB_20180104_000839_1624.zip'
+            'XALOB_20180104_000839_1624.zip',
+            'N795W_20180111_182613_7514.zip',
+            'N795W_20180111_182611_7978.zip'
         ];
 
         filesToDownload.forEach(file => {
