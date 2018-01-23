@@ -1,4 +1,6 @@
+const { app, BrowserWindow } = require('electron');
 const Client = require('ssh2').Client;
+
 const connSettings = {
     host: '172.26.103.36',
     port: 22,
@@ -6,26 +8,38 @@ const connSettings = {
     password: 'mudar@123'
 };
 
-const conn = new Client();
-conn.on('ready', function() {
-    conn.sftp(function(err, sftp) {
-        if (err) throw err;
-
-        const filesToDownload = [
-            'XALOB_20180104_000839_1624.zip',
-            'N795W_20180111_182613_7514.zip',
-            'N795W_20180111_182611_7978.zip'
-        ];
-
-        filesToDownload.forEach(file => {
-            let moveFrom = '/stage/ahe/sent/' + file;
-            let moveTo = '/Users/GIOVASIL/Desktop/teste/' +  file;
+app.on('ready', () => {
     
-            sftp.fastGet(moveFrom, moveTo , {}, function(downloadError){
-                if(downloadError) throw downloadError;
-    
-                console.log(file + " downloaded");
-            });
-        });
+    let mainWindow = new BrowserWindow({
+        width: 600,
+        height: 400
     });
-}).connect(connSettings);
+
+    // mainWindow.loadURL("http://www.alura.com.br");
+
+    // const conn = new Client();
+    
+    // conn.on('ready', function() {
+    //     conn.sftp(function(err, sftp) {
+    //         if (err) throw err;
+    
+    //         const filesToDownload = [
+    //             'XALOB_20180104_000839_1624.zip',
+    //             'N795W_20180111_182613_7514.zip',
+    //             'N795W_20180111_182611_7978.zip'
+    //         ];
+    
+    //         filesToDownload.forEach(file => {
+    //             let moveFrom = '/stage/ahe/sent/' + file;
+    //             let moveTo = '/Users/GIOVASIL/Desktop/teste/' +  file;
+        
+    //             sftp.fastGet(moveFrom, moveTo , {}, function(downloadError){
+    //                 if(downloadError) throw downloadError;
+        
+    //                 console.log(file + " downloaded");
+    //             });
+    //         });
+    //     });
+    // }).connect(connSettings);
+});
+
