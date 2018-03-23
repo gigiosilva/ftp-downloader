@@ -21,9 +21,7 @@ const portLabelEl = $('#port-label');
 const usernameLabelEl = $('#username-label');
 const passwordLabelEl = $('#password-label');
 
-
 let fileList = [];
-let outputPath;
 
 $(document).ready(() => {
   $('.tabs').tabs();
@@ -39,10 +37,10 @@ outputBtnEl.click(() => {
       properties: ['openDirectory']
   });
   filePathInputEl.val(path);
-  outputPath = path;
 });
 
 downloadBtnEl.click(() => {
+  saveData();
   downloadFile();
 });
 
@@ -64,13 +62,13 @@ let addFileToList = (filename) => {
 }
 
 let downloadFile = () => {
-  
+
   const connSettings = {
-      host: '172.26.103.36',
-      port: 22,
-      username: 'ahead_datalink',
-      password: 'mudar@123'
-  };
+      host: hostInputEl.val(),
+      port: portInputEl.val(),
+      username: usernameInputEl.val(),
+      password: passwordInputEl.val()
+  }
   
   conn.on('ready', function() {
       conn.sftp(function(err, sftp) {
@@ -78,7 +76,7 @@ let downloadFile = () => {
   
           fileList.forEach(file => {
               let moveFrom = ftpPathInputEl.val() + '/' + file;
-              let moveTo = outputPath + '/' +  file;
+              let moveTo = filePathInputEl.val() + '/' +  file;
       
               sftp.fastGet(moveFrom, moveTo , {}, function(downloadError){
                   if(downloadError) throw downloadError;
@@ -90,7 +88,29 @@ let downloadFile = () => {
   }).connect(connSettings);
 }
 
+let saveData = () => {
+  let downloadData = {
+    output: outputBtnEl.val(),
+    ftpPath: ftpPathInputEl.val(),
+    fileList: fileList
+  }
+
+  let configData = {
+    host: hostInputEl.val(),
+    port: portInputEl.val(),
+    username: usernameInputEl.val(),
+    password: passwordInputEl.val()
+  }
+
+  localStorage.setItem('download', JSON.stringify(downloadData));
+  localStorage.setItem('config', JSON.stringify(configData));
+}
+
 let loadData = () => {
+
+  let download = JSON.parse(localStorage.getItem('download'));
+  let config = JSON.parse(localStorage.getItem('config'));
+  
   fileList = [
     'N66M_20180101_212438_7446.zip',
     'N66M_20180101_212439_7940.zip',
@@ -99,19 +119,16 @@ let loadData = () => {
   fileListEl.empty();
   fileList.forEach(file => fileListEl.append(`<li class="collection-item">${file}</li>`));
 
+  ftpPathInputEl.val(download.ftpPath);
+  hostInputEl.val(config.host);
+  portInputEl.val(config.port);
+  usernameInputEl.val(config.username);
+  passwordInputEl.val(config.password);
+  
   ftpPathLabelEl.addClass('active');
-  ftpPathInputEl.val('/stage/ahe/sent');
-
   hostLabelEl.addClass('active');
-  hostInputEl.val('172.26.103.36');
-
   portLabelEl.addClass('active');
-  portInputEl.val('22');
-
   usernameLabelEl.addClass('active');
-  usernameInputEl.val('ahead_datalink');
-
   passwordLabelEl.addClass('active');
-  passwordInputEl.val('mudar@123');
 }
 
