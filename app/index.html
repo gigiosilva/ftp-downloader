@@ -1,15 +1,93 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Alura Timer</title>
-    <link rel="stylesheet" href="css/index.css">
+	<meta charset="UTF-8">
+	<title>FTP Downloader</title>
+	<link rel="stylesheet" href="css/index.css">
+	<link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection"
+	/>
 </head>
+
 <body>
-    <h1>Olá Mundo</h1>
+	<ul id="tabs-swipe" class="tabs">
+		<li class="tab col s3"><a class="active" href="#download-tab">Download File</a></li>
+		<li class="tab col s3"><a href="#config-tab">FTP Config</a></li>
+	</ul>
 
-    <a href="#" id="link-sobre">Sobre</a>
+	<div class="container" id="download-tab">
+		<div class="row">
+			<div class="file-field input-field col s6">
+				<div id="output-button" class="btn">
+					<i class="material-icons right">folder_open</i>
+				</div>
+				<div class="file-path-wrapper">
+					<input id="file-path-input" placeholder="Choose output folder" class="file-path" type="text" disabled>
+				</div>
+			</div>
+			<div class="input-field col s6">
+				<input id="ftp-path-input" type="text" class="validate">
+				<label id="ftp-path-label" for="ftp-path-input">FTP Path</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="file-download-input" type="text" class="validate">
+				<label for="file-download-input">File to download</label>
+			</div>
+		</div>
+		<div class="row">
+			<ul class="collection file-list">
+				<li class="collection-item">No Files</li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="input-field col s6 center-align">
+				<a id="clear-button" class="waves-effect waves-light btn-small"><i class="material-icons right">delete_forever</i>Clear</a>
+			</div>
+			<div class="input-field col s6 center-align">
+				<a id="download-button" class="waves-effect waves-light btn-small"><i class="material-icons right">file_download</i>Download</a>
+			</div>
+		</div>
+	</div>
 
-    <script src="js/renderer.js"></script>
+	<div class="container" id="config-tab">
+		<div class="row valign-wrapper">
+			<form class="col s12">
+				<div class="row">
+					<div class="input-field col s8">
+						<input id="host-input" type="text" class="validate">
+						<label id="host-label" for="host-input">Host</label>
+					</div>
+					<div class="input-field col s4">
+						<input id="port-input" type="text" class="validate">
+						<label id="port-label" for="port-input">Port</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<input id="username-input" type="text" class="validate">
+						<label id="username-label" for="username-input">Username</label>
+					</div>
+					<div class="input-field col s6">
+						<input id="password-input" type="text" class="validate">
+						<label id="password-label" for="password-input">Password</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 center-align">
+						<a class="waves-effect waves-light btn"><i class="material-icons right">save</i>Save</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script>
+		window.$ = window.jQuery = require('jquery');
+	</script>
+	<script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
+	<script src="js/index.js"></script>
 </body>
+
 </html>
