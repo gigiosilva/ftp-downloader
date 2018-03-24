@@ -1,7 +1,6 @@
 const { ipcRenderer } = require('electron');
 const { dialog } = require('electron').remote;
 const Client = require('ssh2').Client;
-const conn = new Client();
 
 const fileListEl = $(".file-list");
 const outputFolderEl = $('input[type=file]')[0];
@@ -20,6 +19,7 @@ const hostLabelEl = $('#host-label');
 const portLabelEl = $('#port-label');
 const usernameLabelEl = $('#username-label');
 const passwordLabelEl = $('#password-label');
+const saveButtonEl = $('#save-button');
 
 let fileList = [];
 
@@ -42,6 +42,10 @@ outputBtnEl.click(() => {
 downloadBtnEl.click(() => {
   saveData();
   downloadFile();
+});
+
+saveButtonEl.click(() => {
+  saveData();
 });
 
 fileToDownloadInputEl.keyup((e) => {
@@ -69,28 +73,32 @@ let downloadFile = () => {
       username: usernameInputEl.val(),
       password: passwordInputEl.val()
   }
+
+  const conn = new Client();
   
-  conn.on('ready', function() {
-      conn.sftp(function(err, sftp) {
+  conn.on('ready', () => {
+      conn.sftp((err, sftp) => {
           if (err) console.log(err);
   
           fileList.forEach(file => {
               let moveFrom = ftpPathInputEl.val() + '/' + file;
               let moveTo = filePathInputEl.val() + '/' +  file;
       
-              sftp.fastGet(moveFrom, moveTo , {}, function(downloadError){
-                  if(downloadError) throw downloadError;
-      
+              sftp.fastGet(moveFrom, moveTo , {}, (downloadError) => {
+                  if(downloadError) console.log(downloadError);
+
+                  M.toast({html: file + " downloaded", classes: 'rounded'});
                   console.log(file + " downloaded");
               });
           });
       });
   }).connect(connSettings);
+
 }
 
 let saveData = () => {
   let downloadData = {
-    output: outputBtnEl.val(),
+    output: filePathInputEl.val(),
     ftpPath: ftpPathInputEl.val(),
     fileList: fileList
   }
@@ -111,24 +119,24 @@ let loadData = () => {
   let download = JSON.parse(localStorage.getItem('download'));
   let config = JSON.parse(localStorage.getItem('config'));
   
-  fileList = [
-    'N66M_20180101_212438_7446.zip',
-    'N66M_20180101_212439_7940.zip',
-    'N66M_20180101_212437_9901.zip'
-  ];
-  fileListEl.empty();
-  fileList.forEach(file => fileListEl.append(`<li class="collection-item">${file}</li>`));
+  if(download !== null) {
+    fileListEl.empty();
+    fileList = download.fileList;
+    fileList.forEach(file => fileListEl.append(`<li class="collection-item">${file}</li>`));
+    ftpPathLabelEl.addClass('active');
+    ftpPathInputEl.val(download.ftpPath);
+    filePathInputEl.val(download.output);
+  }
 
-  ftpPathInputEl.val(download.ftpPath);
-  hostInputEl.val(config.host);
-  portInputEl.val(config.port);
-  usernameInputEl.val(config.username);
-  passwordInputEl.val(config.password);
-  
-  ftpPathLabelEl.addClass('active');
-  hostLabelEl.addClass('active');
-  portLabelEl.addClass('active');
-  usernameLabelEl.addClass('active');
-  passwordLabelEl.addClass('active');
+  if(config !== null) {
+    hostInputEl.val(config.host);
+    portInputEl.val(config.port);
+    usernameInputEl.val(config.username);
+    passwordInputEl.val(config.password);
+    hostLabelEl.addClass('active');
+    portLabelEl.addClass('active');
+    usernameLabelEl.addClass('active');
+    passwordLabelEl.addClass('active');
+  }
 }
 

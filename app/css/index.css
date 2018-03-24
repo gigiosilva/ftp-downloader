@@ -2,6 +2,20 @@ h1 {
     color: blue;
 }
 
+body {
+    background: #0a1529;
+}
+
+input {
+    color: #cecece !important;
+    border-color: #cecece !important;
+}
+
+ul, li {
+    color: #cecece !important;
+    background: #182844 !important;
+}
+
 @font-face {
     font-family: 'Material Icons';
     font-style: normal;
@@ -36,6 +50,30 @@ h1 {
 .file-list {
     height: 168px;
     overflow-y: auto !important;
+}
+
+ul.tabs {
+    background: #182844 !important;
+    border-color: white !important;
+}
+
+.tabs a {
+    border-color: white !important;
+    color: #cecece !important;
+}
+
+.tabs .tab a.active {
+    background: #0a1529 !important;
+    color: #26a69a !important;
+}
+
+.tabs li.indicator {
+    background: #26a69a !important;
+}
+
+#toast-container {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
 }
 
 #output-button {
