@@ -3,7 +3,7 @@ h1 {
 }
 
 body {
-    background: #0a1529;
+    background: #202121;
 }
 
 input {
@@ -13,7 +13,7 @@ input {
 
 ul, li {
     color: #cecece !important;
-    background: #182844 !important;
+    background: #373838 !important;
 }
 
 @font-face {
@@ -59,12 +59,13 @@ ul.tabs {
 
 .tabs a {
     border-color: white !important;
-    color: #cecece !important;
+    color: #919191 !important;
+    font-weight: bold;
 }
 
 .tabs .tab a.active {
-    background: #0a1529 !important;
-    color: #26a69a !important;
+    background: #202121 !important;
+    color: #cecece !important;
 }
 
 .tabs li.indicator {
