@@ -29,6 +29,7 @@ $(document).ready(() => {
 });
 
 clearBtnEl.click(() => {
+  fileList = [];
   fileListEl.empty();
 });
 
@@ -75,29 +76,40 @@ let downloadFile = () => {
       password: passwordInputEl.val()
   }
 
-  const conn = new Client();
-  
-  conn.on('ready', () => {
-      conn.sftp((err, sftp) => {
-          if (err) console.log(err);
-  
-          fileList.forEach(file => {
-              let moveFrom = ftpPathInputEl.val() + '/' + file;
-              let moveTo = filePathInputEl.val() + '/' +  file;
-      
-              sftp.fastGet(moveFrom, moveTo , {}, (downloadError) => {
-                  if(downloadError) console.log(downloadError);
+  console.log(connSettings)
 
-                  new Notification('Ftp Downloader',{
-                    body: `${file} downloaded`
-                  });
+  if(connSettings.host !== '') {
 
-                  M.toast({html: file + " downloaded", classes: 'rounded'});
-                  console.log(file + " downloaded");
-              });
-          });
-      });
-  }).connect(connSettings);
+    const conn = new Client();
+    
+    conn.on('ready', () => {
+        conn.sftp((err, sftp) => {
+            if (err) {
+              M.toast({html: err, classes: 'rounded'});
+              console.log(err);
+              return
+            }
+    
+            fileList.forEach(file => {
+                let moveFrom = ftpPathInputEl.val() + '/' + file;
+                let moveTo = filePathInputEl.val() + '/' +  file;
+        
+                sftp.fastGet(moveFrom, moveTo , {}, (downloadError) => {
+                    if(downloadError) {
+                      M.toast({html: `${file} - ${downloadError}`, classes: 'rounded'});
+                      console.log(downloadError);
+                      return
+                    }
+
+                    M.toast({html: `${file} downloaded`, classes: 'rounded'});
+                    console.log(`${file} downloaded`);
+                });
+            });
+        });
+    }).connect(connSettings);
+  } else {
+    M.toast({html: "FTP connection failed", classes: 'rounded'});
+  }
 
 }
 

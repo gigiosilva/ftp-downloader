@@ -15,16 +15,16 @@ module.exports = {
                     }
                 ]
             },
-            // {
-            //     label: 'View',
-            //     submenu: [{
-            //         role: 'reload'
-            //     },
-            //     {
-            //         role: 'toggledevtools'
-            //     }
-            //     ]
-            // }
+            {
+                label: 'View',
+                submenu: [{
+                    role: 'reload'
+                },
+                {
+                    role: 'toggledevtools'
+                }
+                ]
+            }
         ];
     
         //somente se for Mac pq por padrão ele cria o primeiro menu com o nome do app
