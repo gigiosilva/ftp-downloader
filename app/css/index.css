@@ -2,10 +2,6 @@ h1 {
     color: blue;
 }
 
-body {
-    background: #202121;
-}
-
 input {
     color: #cecece !important;
     border-color: #cecece !important;
@@ -35,6 +31,7 @@ ul, li {
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;
+    font-feature-settings: 'liga';
     -webkit-font-feature-settings: 'liga';
     -webkit-font-smoothing: antialiased;
 }
@@ -53,7 +50,7 @@ ul, li {
 }
 
 ul.tabs {
-    background: #182844 !important;
+    background: #202121 !important;
     border-color: white !important;
 }
 

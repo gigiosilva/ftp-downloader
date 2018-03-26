@@ -1,0 +1,1 @@
+electron-packager node_sftp/ ftp-donwloader --platform=win32 --arch=x64

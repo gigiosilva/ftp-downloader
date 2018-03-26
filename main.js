@@ -1,14 +1,25 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, globalShortcut } = require('electron');
 const Client = require('ssh2').Client;
+const templateGenerator = require('./template');
 
 app.on('ready', () => {
     
     let mainWindow = new BrowserWindow({
         width: 870,
-        height: 540
+        height: 540,
+        backgroundColor: '#202121'
     });
 
+    // mainWindow.openDevTools();
     mainWindow.loadURL(`file://${__dirname}/app/index.html`);
+
+    let templateMenu = templateGenerator.geraMenuPrincipalTemplate(app);
+    let menuPrincipal = Menu.buildFromTemplate(templateMenu);
+    Menu.setApplicationMenu(menuPrincipal);
+
+    globalShortcut.register('CmdOrCtrl+I', () => {
+        ipcMain.emit('abrir-janela-sobre');
+    });
 });
 
 app.on('window-all-closed', () => {
@@ -24,7 +35,7 @@ ipcMain.on('abrir-janela-sobre', () => {
             width: 300,
             height: 200,
             alwaysOnTop: true,
-            frame: false
+            autoHideMenuBar: true
         });
 
         sobreWindow.on('closed', () => {

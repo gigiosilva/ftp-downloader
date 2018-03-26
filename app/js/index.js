@@ -45,6 +45,7 @@ downloadBtnEl.click(() => {
 });
 
 saveButtonEl.click(() => {
+  M.toast({html: 'Saved!', classes: 'rounded'});
   saveData();
 });
 
@@ -86,6 +87,10 @@ let downloadFile = () => {
       
               sftp.fastGet(moveFrom, moveTo , {}, (downloadError) => {
                   if(downloadError) console.log(downloadError);
+
+                  new Notification('Ftp Downloader',{
+                    body: `${file} downloaded`
+                  });
 
                   M.toast({html: file + " downloaded", classes: 'rounded'});
                   console.log(file + " downloaded");
