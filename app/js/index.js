@@ -60,10 +60,11 @@ fileToDownloadInputEl.keyup((e) => {
 
 let addFileToList = (filename) => {
   if(filename !== '') {
-    fileList.push(filename);
-    fileListEl.empty();
-    fileList.forEach(file => fileListEl.append(`<li class="collection-item">${file}</li>`));
-    fileListEl.animate({scrollTop:$(document).height()}, 'slow');
+    filename.split(',').forEach(val => {
+      fileList.push(val);
+      fileListEl.append(`<li class="collection-item">${val}</li>`);
+    });
+    fileListEl.animate({scrollTop:fileListEl.prop("scrollHeight")}, 'slow',);
   }
 }
 
